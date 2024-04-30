@@ -3,9 +3,9 @@ package database
 import (
 	"bufio"
 	"database/sql"
+	_ "github.com/go-sql-driver/mysql"
 	"log"
 	"os"
-	_ "github.com/go-sql-driver/mysql"
 )
 
 var dsn string
@@ -20,7 +20,7 @@ func init() {
 
 	if scanner.Scan() {
 		dsn = scanner.Text()
-		return	
+		return
 	}
 }
 
@@ -29,7 +29,7 @@ func ConnectionDB() *sql.DB {
 	if err != nil {
 		log.Fatal(err)
 	}
-	
+
 	if err := db.Ping(); err != nil {
 		log.Fatal(err)
 	}

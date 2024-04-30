@@ -10,6 +10,7 @@ func main() {
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("GET /signup", handlers.GetSignup)
+	mux.HandleFunc("POST /signup", handlers.PostSignup)
 
 	//start a server
 	err := http.ListenAndServeTLS(":8080", "tls/server.crt", "tls/server.key", mux)

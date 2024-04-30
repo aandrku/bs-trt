@@ -29,7 +29,7 @@ func contains(password string, checker func(rune) bool) bool {
 		if checker(char) {
 			res = true
 			break
-		}	
+		}
 	}
 
 	return res
