@@ -12,7 +12,7 @@ import (
 var Store *sessions.CookieStore
 
 func init() {
-	file, err := os.Open("./secret/session-store.key")
+	file, err := os.Open("./secret/session.key")
 	if err != nil {
 		log.Fatal(err)
 	}
