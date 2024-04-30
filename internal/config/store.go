@@ -24,9 +24,9 @@ func init() {
 		sk := scanner.Bytes()
 		Store = sessions.NewCookieStore(sk)
 		Store.Options = &sessions.Options{
-			MaxAge:   3600 * 24,       // Cookie expiration time in seconds (1 day)
-			HttpOnly: true,       // HTTP only cookie
-			Secure:   true,       // Cookie sent over HTTPS only
+			MaxAge:   3600 * 24, // Cookie expiration time in seconds (1 day)
+			HttpOnly: true,      // HTTP only cookie
+			Secure:   true,      // Cookie sent over HTTPS only
 			SameSite: http.SameSiteDefaultMode,
 		}
 
@@ -34,5 +34,3 @@ func init() {
 	}
 	log.Fatalf("Failed to read a session-key")
 }
-
-
