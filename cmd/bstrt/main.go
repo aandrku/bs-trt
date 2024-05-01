@@ -2,6 +2,7 @@ package main
 
 import (
 	"bstrt/internal/handlers"
+	"bstrt/internal/middleware"
 	"log"
 	"net/http"
 )
@@ -9,7 +10,7 @@ import (
 func main() {
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("GET /", handlers.GetRoot)
+	mux.HandleFunc("GET /", middleware.Auth(handlers.GetRoot))
 	mux.HandleFunc("GET /signup", handlers.GetSignup)
 	mux.HandleFunc("POST /signup", handlers.PostSignup)
 	mux.HandleFunc("GET /login", handlers.GetLogin)
