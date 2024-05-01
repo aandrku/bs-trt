@@ -1,4 +1,4 @@
-server.crt
-server.key
+cert.pem
+key.pem
 sessions.key
 dsn.database

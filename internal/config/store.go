@@ -2,6 +2,7 @@ package config
 
 import (
 	"bufio"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -12,7 +13,8 @@ import (
 var Store *sessions.CookieStore
 
 func init() {
-	file, err := os.Open("./secret/session.key")
+	fmt.Println("started a cookie store")
+	file, err := os.Open("./secret/sessions.key")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -29,6 +31,7 @@ func init() {
 			Secure:   true,      // Cookie sent over HTTPS only
 			SameSite: http.SameSiteDefaultMode,
 		}
+		fmt.Println("finished a cookie store")
 
 		return
 	}

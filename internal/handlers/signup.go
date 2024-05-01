@@ -5,6 +5,7 @@ import (
 	"bstrt/internal/database"
 	"bstrt/internal/util"
 	"bstrt/internal/validate"
+	"fmt"
 	"log"
 	"net/http"
 )
@@ -23,7 +24,7 @@ func GetSignup(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//if user not logged in, send him a sign up page
-	http.ServeFile(w, r, "./static/templates")
+	http.ServeFile(w, r, "./static/templates/signup.html")
 
 }
 
@@ -33,15 +34,15 @@ func PostSignup(w http.ResponseWriter, r *http.Request) {
 	password := r.FormValue("password")
 
 	//validate username
-	if ok, err := validate.Username(username); !ok {
-		log.Print(err)
+	if ok, _ := validate.Username(username); !ok {
+		fmt.Println("failed to validate username")
 		http.Redirect(w, r, "/signup", http.StatusFound)
 		return
 	}
 
 	//validate password
-	if ok, err := validate.Password(password); !ok {
-		log.Print(err)
+	if ok, _ := validate.Password(password); !ok {
+		fmt.Println("failed to validate password")
 		http.Redirect(w, r, "/signup", http.StatusFound)
 		return
 	}

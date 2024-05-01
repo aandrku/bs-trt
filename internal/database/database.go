@@ -3,14 +3,17 @@ package database
 import (
 	"bufio"
 	"database/sql"
-	_ "github.com/go-sql-driver/mysql"
+	"fmt"
 	"log"
 	"os"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 var dsn string
 
 func init() {
+	fmt.Println("started initializing database package")
 	file, err := os.Open("./secret/dsn.database")
 	if err != nil {
 		log.Fatal(err)
@@ -20,6 +23,7 @@ func init() {
 
 	if scanner.Scan() {
 		dsn = scanner.Text()
+		fmt.Println(dsn)
 		return
 	}
 }
