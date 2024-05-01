@@ -1,18 +1,79 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>Sign Up Page</title>
-</head>
-<body>
-    <h2>Sign Up</h2>
-    <form action="/signup" method="POST">
-        <label for="username">Username:</label><br>
-        <input type="text" id="username" name="username"><br><br>
-        
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password"><br><br>
-        
-        <input type="submit" value="Sign Up">
-    </form>
-</body>
+<html class="h-full bg-neutral-900">
+	<head>
+		<title>Login Page</title>
+		<link rel="stylesheet" href="static/css/tailwind.css">
+	</head>
+	<body class="h-full">
+		<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+			<div class="sm:mx-auto sm:w-full sm:max-w-sm">
+				<h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-neutral-500">Sign Up</h2>
+			</div>
+
+			<div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+				<form class="space-y-6"  action="/signup" method="POST">
+					<div>
+						<label for="email" class="block text-sm font-medium leading-6 text-neutral-400">Email address</label>
+						<div class="mt-2">
+							<input id="email" name="email" type="email" autocomplete="email"
+							required class="block w-full  bg-neutral-400 rounded-md border-0
+							py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-neutral-400 
+							placeholder:text-gray-400 focus:ring-2 focus:ring-inset
+							focus:ring-neutral-950 sm:text-sm sm:leading-6">
+						</div>
+					</div>
+
+					<div>
+						<label for="tag" class="block text-sm font-medium leading-6 text-neutral-400">Game tag</label>
+						<div class="mt-2">
+							<input id="tag" name="tag" type="text" 
+							required class="block w-full  bg-neutral-400 rounded-md border-0
+							py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-neutral-400 
+							placeholder:text-gray-400 focus:ring-2 focus:ring-inset
+							focus:ring-neutral-950 sm:text-sm sm:leading-6">
+						</div>
+					</div>
+
+					<div>
+						<label for="password" class="block text-sm font-medium leading-6 text-neutral-400">Password</label>
+						<div class="mt-2">
+							<input id="password" name="password" type="password" 
+							required class="block w-full bg-neutral-400 rounded-md border-0
+							py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-neutral-400
+							placeholder:text-gray-400 focus:ring-2 focus:ring-inset
+							focus:ring-neutral-950 sm:text-sm sm:leading-6">
+						</div>
+					</div>
+
+					<div>
+						<label for="confirm-password" class="block text-sm font-medium leading-6 text-neutral-400">Confirm password</label>
+						<div class="mt-2">
+							<input id="confirm-password" name="confirm-password" type="password" 
+							required class="block w-full bg-neutral-400 rounded-md border-0
+							py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-neutral-400
+							placeholder:text-gray-400 focus:ring-2 focus:ring-inset
+							focus:ring-neutral-950 sm:text-sm sm:leading-6">
+						</div>
+					</div>
+
+					<div>
+						<button type="submit" class="flex w-full justify-center rounded-md
+							bg-blue-900 px-3 py-1.5 text-sm font-semibold leading-6
+							text-white shadow-sm hover:bg-blue-950 focus-visible:outline
+							focus-visible:outline-2 focus-visible:outline-offset-2
+							focus-visible:outline-neutral-950">Sign Up</button>
+					</div>
+
+					<div>
+						<button type="submit" class="flex w-full justify-center rounded-md
+							bg-blue-900 px-3 py-1.5 text-sm font-semibold leading-6
+							text-white shadow-sm hover:bg-blue-950 focus-visible:outline
+							focus-visible:outline-2 focus-visible:outline-offset-2
+							focus-visible:outline-neutral-950" onclick="window.location.href='https://localhost:8080/login';"
+							>Back to login</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</body>
 </html>
