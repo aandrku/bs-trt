@@ -12,6 +12,8 @@ func main() {
 	mux.HandleFunc("GET /", handlers.GetRoot)
 	mux.HandleFunc("GET /signup", handlers.GetSignup)
 	mux.HandleFunc("POST /signup", handlers.PostSignup)
+	mux.HandleFunc("GET /login", handlers.GetLogin)
+	mux.HandleFunc("POST /login", handlers.PostLogin)
 
 	//start a server
 	err := http.ListenAndServeTLS(":8080", "tls/cert.pem", "tls/key.pem", mux)
