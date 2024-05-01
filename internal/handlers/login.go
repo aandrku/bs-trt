@@ -19,7 +19,7 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.ServeFile(w, r, "./static/templates/login.html")
+	http.ServeFile(w, r, "./templates/login.html")
 }
 
 func PostLogin(w http.ResponseWriter, r *http.Request) {

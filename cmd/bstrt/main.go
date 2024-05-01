@@ -16,9 +16,12 @@ func main() {
 	mux.HandleFunc("GET /login", handlers.GetLogin)
 	mux.HandleFunc("POST /login", handlers.PostLogin)
 
+
+	fs := http.FileServer(http.Dir("static"))
+	mux.Handle("GET /static/", http.StripPrefix("/static/", fs))
+
 	//start a server
 	err := http.ListenAndServeTLS(":8080", "tls/cert.pem", "tls/key.pem", mux)
-	// err := http.ListenAndServe(":8080", mux)
 	if err != nil {
 		log.Fatalf("Failed to start server: %v", err)
 	}

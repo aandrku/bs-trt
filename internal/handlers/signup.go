@@ -24,7 +24,7 @@ func GetSignup(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//if user not logged in, send him a sign up page
-	http.ServeFile(w, r, "./static/templates/signup.html")
+	http.ServeFile(w, r, "./templates/signup.html")
 
 }
 
