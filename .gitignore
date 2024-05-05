@@ -6,3 +6,4 @@ dsn.database
 package-lock.json
 /static/
 brawl-api.token
+/secret/
