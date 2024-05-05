@@ -16,7 +16,6 @@ func main() {
 	mux.HandleFunc("GET /login", handlers.GetLogin)
 	mux.HandleFunc("POST /login", handlers.PostLogin)
 
-
 	fs := http.FileServer(http.Dir("static"))
 	mux.Handle("GET /static/", http.StripPrefix("/static/", fs))
 

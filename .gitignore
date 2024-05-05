@@ -5,3 +5,4 @@ dsn.database
 /node_modules/
 package-lock.json
 /static/
+brawl-api.token
