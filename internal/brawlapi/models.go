@@ -1,24 +1,16 @@
 package brawlapi
 
 type PlayerInfo struct {
-	Club                                 PlayerClub    `json:"club"`
-	IsQualifiedFromChampionshipChallenge bool          `json:"isQualifiedFromChampionshipChallenge"`
-	ThreeVSThreeVictories                int           `json:"3vs3Victories"`
-	Icon                                 PlayerIcon    `json:"icon"`
-	Tag                                  string        `json:"tag"`
 	Name                                 string        `json:"name"`
+	Tag                                  string        `json:"tag"`
+	Club                                 PlayerClub    `json:"club"`
+	Icon                                 PlayerIcon    `json:"icon"`
 	Trophies                             int           `json:"trophies"`
 	ExpLevel                             int           `json:"expLevel"`
-	ExpPoints                            int           `json:"expPoints"`
 	HighestTrophies                      int           `json:"highestTrophies"`
-	PowerPlayPoints                      int           `json:"powerPlayPoints"`
-	HighestPowerPlayPoints               int           `json:"highestPowerPlayPoints"`
+	ThreeVSThreeVictories                int           `json:"3vs3Victories"`
 	SoloVictories                        int           `json:"soloVictories"`
 	DuoVictories                         int           `json:"duoVictories"`
-	BestRoboRumbleTime                   int           `json:"bestRoboRumbleTime"`
-	BestTimeAsBigBrawler                 int           `json:"bestTimeAsBigBrawler"`
-	Brawlers                             []BrawlerStat `json:"brawlers"`
-	NameColor                            string        `json:"nameColor"`
 }
 
 type PlayerClub struct {
