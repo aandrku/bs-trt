@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"bstrt/internal/config"
+	"bstrt/internal/util"
 	"log"
 	"net/http"
 )
@@ -13,9 +14,16 @@ func Auth(next func(w http.ResponseWriter, r *http.Request)) func(w http.Respons
 			log.Fatal(err)
 		}
 
-		if session.IsNew || session.Values["authenticated"] != true {
+		if session.IsNew {
 			http.Redirect(w, r, "/login", http.StatusFound)
 			return
+		}
+
+		token := session.Values["jwt"].(string)
+		_, claims, err := util.ParseToken(token, []byte("secret"))
+
+		if claims["authenticated"] != true {
+			http.Redirect(w, r, "/login", http.StatusFound)
 		}
 
 		next(w, r)

@@ -1,16 +1,16 @@
 package brawlapi
 
 type PlayerInfo struct {
-	Name                                 string        `json:"name"`
-	Tag                                  string        `json:"tag"`
-	Club                                 PlayerClub    `json:"club"`
-	Icon                                 PlayerIcon    `json:"icon"`
-	Trophies                             int           `json:"trophies"`
-	ExpLevel                             int           `json:"expLevel"`
-	HighestTrophies                      int           `json:"highestTrophies"`
-	ThreeVSThreeVictories                int           `json:"3vs3Victories"`
-	SoloVictories                        int           `json:"soloVictories"`
-	DuoVictories                         int           `json:"duoVictories"`
+	Name                  string     `json:"name"`
+	Tag                   string     `json:"tag"`
+	Club                  PlayerClub `json:"club"`
+	Icon                  PlayerIcon `json:"icon"`
+	Trophies              int        `json:"trophies"`
+	ExpLevel              int        `json:"expLevel"`
+	HighestTrophies       int        `json:"highestTrophies"`
+	ThreeVSThreeVictories int        `json:"3vs3Victories"`
+	SoloVictories         int        `json:"soloVictories"`
+	DuoVictories          int        `json:"duoVictories"`
 }
 
 type PlayerClub struct {
@@ -71,7 +71,7 @@ type ClubMember struct {
 }
 
 type ClientError struct {
-	Reason  string `json:"reason"`
+	Reason string `json:"reason"`
 }
 
 func (ce ClientError) Error() string {

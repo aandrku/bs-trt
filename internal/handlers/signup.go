@@ -9,34 +9,44 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+
+	"github.com/golang-jwt/jwt/v4"
 )
 
 func GetSignup(w http.ResponseWriter, r *http.Request) {
-	//get session data
+	//get a session from a request
 	session, err := config.Store.Get(r, "login-session")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	//if user logged in redirect him to the main page
-	if session.Values["authenticated"] == true {
-		http.Redirect(w, r, "/", http.StatusFound)
-		return
+	//get a token from a session
+	token := session.Values["jwt"]
+
+	//if client logged in send him to the main page
+	if !session.IsNew && token != nil {
+		token := token.(string)
+		_, claims, err := util.ParseToken(token, []byte("secret"))
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+		if claims["authenticated"] == true {
+			http.Redirect(w, r, "/", http.StatusFound)
+		}
 	}
 
-	//if user not logged in, send him a sign up page
+	//serve a signup page
 	http.ServeFile(w, r, "./templates/signup.html")
-
 }
 
 func PostSignup(w http.ResponseWriter, r *http.Request) {
+	//parse a form
 	r.ParseForm()
+	//obtain values from a form
 	email := r.FormValue("email")
 	tag := r.FormValue("tag")
 	password := r.FormValue("password")
 	confirmPassword := r.FormValue("confirm-password")
-
-	fmt.Println(email, tag, password, confirmPassword)
 
 	//validate username
 	if ok, _ := validate.Email(email); !ok {
@@ -59,7 +69,6 @@ func PostSignup(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/signup", http.StatusFound)
 		return
 	}
-	
 
 	//get db connection
 	db := database.ConnectionDB()
@@ -97,24 +106,36 @@ func PostSignup(w http.ResponseWriter, r *http.Request) {
 	}
 	defer stmn.Close()
 	_, err = stmn.Exec(playerInfo.Name, playerInfo.Tag, playerInfo.Club.Tag, playerInfo.Icon.Id, playerInfo.ExpLevel, playerInfo.ThreeVSThreeVictories,
-	playerInfo.DuoVictories, playerInfo.SoloVictories, id, playerInfo.Trophies)
+		playerInfo.DuoVictories, playerInfo.SoloVictories, id, playerInfo.Trophies)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-	
-	//authenticate
+
+	//create a new jwt for a client
+	claims := jwt.MapClaims{
+		"email":         email,
+		"authenticated": true,
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	secretKey := "secret"
+
+	encodedToken, err := token.SignedString([]byte(secretKey))
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	//store jwt in a session
 	session, err := config.Store.Get(r, "login-session")
 	if err != nil {
 		log.Fatal(err)
 	}
-	session.Values["email"] = email 
-	session.Values["authenticated"] = true
+	session.Values["jwt"] = encodedToken
 
 	//store in session
 	session.Save(r, w)
 
-	//send to the main page
+	//redirect to the main page
 	http.Redirect(w, r, "/", http.StatusFound)
 	return
-
 }
