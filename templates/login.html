@@ -7,6 +7,7 @@
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="static/css/font.css">
+		<script src="static/js/login.bundle.js"></script>
 	</head>
 	<body class="h-full lilita-one-regular">
 		<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
@@ -15,7 +16,8 @@
 			</div>
 
 			<div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-				<form class="space-y-6"  action="/login" method="POST">
+				<form id="login-form" class="space-y-6"  action="/login" method="POST">
+					<div id="error" class="text-red-500"></div>
 					<div>
 						<label for="email" class="block text-sm font-medium leading-6 text-neutral-400">Email address</label>
 						<div class="mt-2">

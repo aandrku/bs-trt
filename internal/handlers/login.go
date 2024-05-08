@@ -4,6 +4,7 @@ import (
 	"bstrt/internal/config"
 	"bstrt/internal/database"
 	"bstrt/internal/util"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -60,7 +61,7 @@ func PostLogin(w http.ResponseWriter, r *http.Request) {
 
 	//if database didnt't return any rows - users doesnt exist return an error to a user
 	if !rows.Next() {
-		http.Redirect(w, r, "/login", http.StatusFound)
+		SendVerificationError(w, r, "Email not found.")
 		return
 	}
 
@@ -74,7 +75,7 @@ func PostLogin(w http.ResponseWriter, r *http.Request) {
 	//check if password match
 	check := util.CheckPasswordHash(password, hash)
 	if !check {
-		http.Redirect(w, r, "/login", http.StatusFound)
+		SendVerificationError(w, r, "Wrong password.")
 		return
 	}
 
@@ -101,4 +102,28 @@ func PostLogin(w http.ResponseWriter, r *http.Request) {
 
 	//redirect client to a main page
 	http.Redirect(w, r, "/", http.StatusFound)
+}
+
+type VerificationError struct {
+	Message string `json:"message"`
+}
+
+func SendVerificationError(w http.ResponseWriter, r *http.Request, message string) {
+	verificationError := VerificationError{
+		Message: message,
+	}
+
+	jsonData, err := json.Marshal(verificationError)
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	
+	w.Header().Set("Content-Type", "application/json")
+
+	_, err = w.Write(jsonData)
+	if err != nil {
+		http.Error(w, "Error writing JSON response", http.StatusInternalServerError)
+		return
+	}
 }

@@ -50,23 +50,21 @@ func PostSignup(w http.ResponseWriter, r *http.Request) {
 
 	//validate username
 	if ok, _ := validate.Email(email); !ok {
-		fmt.Println("Failed to validate email")
-		http.Redirect(w, r, "/signup", http.StatusFound)
+		SendVerificationError(w, r, "Invalid email.")
 		return
 	}
 
 	//validate password
-	if ok, _ := validate.Password(password); !ok || password != confirmPassword {
-		fmt.Println("failed to validate password")
-		http.Redirect(w, r, "/signup", http.StatusFound)
+	fmt.Println(password, confirmPassword)
+	if err := validate.Password(password); err != nil || password != confirmPassword {
+		SendVerificationError(w, r, err.Error())
 		return
 	}
 
 	//validate tag
 	playerInfo, err := brawlapi.GetPlayerInfo(tag)
 	if err != nil {
-		fmt.Println("Failed to validate tag")
-		http.Redirect(w, r, "/signup", http.StatusFound)
+		SendVerificationError(w, r, "Invalid game tag.")
 		return
 	}
 
@@ -82,8 +80,7 @@ func PostSignup(w http.ResponseWriter, r *http.Request) {
 	defer rows.Close()
 
 	if rows.Next() {
-		log.Print("user already exists")
-		http.Redirect(w, r, "/signup", http.StatusFound)
+		SendVerificationError(w, r, "User with such email already exists.")
 		return
 	}
 	//hash Password
@@ -94,21 +91,20 @@ func PostSignup(w http.ResponseWriter, r *http.Request) {
 	//store in a database
 	_, err = db.Exec("INSERT INTO users (email, tag, hash) VALUES (?, ?, ?)", email, tag, hash)
 	if err != nil {
-		fmt.Println("failed to execute query")
-		http.Redirect(w, r, "/signup", http.StatusFound)
+		SendVerificationError(w, r, "Something went wrong.")
 		return
 	}
 	var id int
 	err = db.QueryRow("SELECT id FROM users WHERE email = ?", email).Scan(&id)
 	stmn, err := db.Prepare("INSERT INTO profiles (name, tag, club, icon, expLevel, threeVictories, duoVictories, soloVictories, user_id, trophies) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
 	if err != nil {
-		fmt.Println("Failed to execute a prepare stmn")
+		SendVerificationError(w, r, "Something went wrong.")
 	}
 	defer stmn.Close()
 	_, err = stmn.Exec(playerInfo.Name, playerInfo.Tag, playerInfo.Club.Tag, playerInfo.Icon.Id, playerInfo.ExpLevel, playerInfo.ThreeVSThreeVictories,
 		playerInfo.DuoVictories, playerInfo.SoloVictories, id, playerInfo.Trophies)
 	if err != nil {
-		fmt.Println(err.Error())
+		SendVerificationError(w, r, "Something went wrong.")
 	}
 
 	//create a new jwt for a client
@@ -136,6 +132,7 @@ func PostSignup(w http.ResponseWriter, r *http.Request) {
 	session.Save(r, w)
 
 	//redirect to the main page
+	fmt.Println("got to redirect")
 	http.Redirect(w, r, "/", http.StatusFound)
 	return
 }

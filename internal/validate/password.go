@@ -5,20 +5,20 @@ import (
 	"unicode"
 )
 
-func Password(password string) (bool, error) {
+func Password(password string) error {
 	switch {
 	case len(password) < 8:
-		return false, errors.New("Password should be at least 8 characters long")
+		return errors.New("Password should be at least 8 characters long")
 	case len(password) > 64:
-		return false, errors.New("Password should not exceed 64 characters")
+		return errors.New("Password should not exceed 64 characters")
 	case !contains(password, unicode.IsUpper):
-		return false, errors.New("Password should contain at least one upper case letter")
+		return errors.New("Password should contain at least one upper case letter")
 	case !contains(password, unicode.IsLower):
-		return false, errors.New("Password should contain at least one lower case letter")
+		return errors.New("Password should contain at least one lower case letter")
 	case !contains(password, unicode.IsDigit):
-		return false, errors.New("Password should contain at least one digit")
+		return errors.New("Password should contain at least one digit")
 	default:
-		return true, nil
+		return nil
 	}
 }
 
